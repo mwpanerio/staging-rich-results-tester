@@ -1,0 +1,20 @@
+{
+  "name": "staging-rich-results-test",
+  "version": "1.0.0",
+  "description": "Local Rich Results Test for password-protected staging sites",
+  "type": "module",
+  "scripts": {
+    "start": "bash scripts/start.sh",
+    "dev": "bash scripts/start.sh",
+    "smoke": "node scripts/smoke.mjs",
+    "postinstall": "npx puppeteer browsers install chrome"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "cheerio": "^1.1.0",
+    "express": "^5.1.0",
+    "puppeteer": "^24.15.0"
+  }
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Staging Rich Results Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar__brand">
+        <span class="topbar__mark" aria-hidden="true"></span>
+        <div>
+          <p class="topbar__eyebrow">Staging tool</p>
+          <h1>Rich Results Test</h1>
+        </div>
+      </div>
+      <p class="topbar__note">
+        Works with password-protected staging URLs
+        <code>?auth=user:pass</code>
+      </p>
+    </header>
+
+    <main class="shell">
+      <section class="hero-card">
+        <h2>Does your page support rich results?</h2>
+        <p class="hero-card__sub">
+          Test a publicly accessible page — or a staging URL with auth — to see
+          which rich results can be generated from its structured data.
+        </p>
+
+        <div class="tabs" role="tablist">
+          <button class="tabs__btn is-active" data-tab="url" type="button">URL</button>
+          <button class="tabs__btn" data-tab="code" type="button">Code</button>
+        </div>
+
+        <form id="test-form" class="test-form" autocomplete="off">
+          <div id="url-panel" class="panel">
+            <label class="field">
+              <span class="field__label">Enter a URL to test</span>
+              <input
+                id="url-input"
+                name="url"
+                type="url"
+                placeholder="https://client.webpagefxstage.com/?auth=user:pass"
+                spellcheck="false"
+              />
+            </label>
+
+            <fieldset class="device-field">
+              <legend class="field__label">Test with</legend>
+              <div class="device-toggle" role="radiogroup" aria-label="Device">
+                <label class="device-option">
+                  <input type="radio" name="device" value="mobile" checked />
+                  <span>Smartphone</span>
+                </label>
+                <label class="device-option">
+                  <input type="radio" name="device" value="desktop" />
+                  <span>Desktop</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <details class="auth-details">
+              <summary>Advanced auth (optional)</summary>
+              <div class="auth-grid">
+                <label class="field">
+                  <span class="field__label">Username</span>
+                  <input id="user-input" name="username" type="text" autocomplete="username" />
+                </label>
+                <label class="field">
+                  <span class="field__label">Password</span>
+                  <input
+                    id="pass-input"
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                  />
+                </label>
+              </div>
+              <p class="hint">
+                Tip: you can also put credentials in the URL as
+                <code>?auth=username:password</code>. The tool sends Basic Auth
+                and keeps the query param for WebFX-style staging.
+              </p>
+            </details>
+          </div>
+
+          <div id="code-panel" class="panel is-hidden">
+            <label class="field">
+              <span class="field__label">Paste HTML or JSON-LD</span>
+              <textarea
+                id="code-input"
+                name="html"
+                rows="12"
+                placeholder='&lt;script type="application/ld+json"&gt;{ "@context": "https://schema.org", ... }&lt;/script&gt;'
+              ></textarea>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button id="submit-btn" class="btn btn--primary" type="submit">
+              Test URL
+            </button>
+            <button id="clear-btn" class="btn btn--ghost" type="button">Clear</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="status" class="status is-hidden" aria-live="polite"></section>
+
+      <div id="results-layout" class="results-layout is-hidden">
+        <section id="results" class="results"></section>
+        <aside id="tested-page" class="tested-page" aria-label="Tested page"></aside>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>
+        Local staging helper — not affiliated with Google. Results approximate
+        Google’s Rich Results Test for crawl + structured-data checks on auth
+        walls.
+      </p>
+    </footer>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
