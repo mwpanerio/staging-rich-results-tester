@@ -1,7 +1,7 @@
 {
-  "name": "staging-rich-results-test",
+  "name": "staging-rich-results-tester",
   "version": "1.0.0",
-  "description": "Local Rich Results Test for password-protected staging sites",
+  "description": "Local Rich Results tester for password-protected staging sites — crawl mobile/desktop, validate JSON-LD, and review HTML/screenshots without Googlebot access.",
   "type": "module",
   "scripts": {
     "start": "bash scripts/start.sh",
@@ -11,6 +11,10 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mwpanerio/staging-rich-results-tester.git"
   },
   "dependencies": {
     "cheerio": "^1.1.0",
