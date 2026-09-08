@@ -19,11 +19,14 @@ REGION="${GCP_REGION:-us-central1}"
 SERVICE="${CLOUD_RUN_SERVICE:-staging-rich-results-tester}"
 REPO="${ARTIFACT_REPO:-cloud-run-source}"
 IMAGE="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/${SERVICE}"
+DEPLOY_SA="${DEPLOY_SA:-staging-rich-results-tester@${PROJECT_ID}.iam.gserviceaccount.com}"
+DEPLOY_SA_RESOURCE="projects/${PROJECT_ID}/serviceAccounts/${DEPLOY_SA}"
 
 echo "Project:  ${PROJECT_ID}"
 echo "Region:   ${REGION}"
 echo "Service:  ${SERVICE}"
 echo "Image:    ${IMAGE}"
+echo "Build SA: ${DEPLOY_SA}"
 
 gcloud config set project "${PROJECT_ID}"
 
@@ -31,7 +34,8 @@ gcloud services enable \
   run.googleapis.com \
   cloudbuild.googleapis.com \
   artifactregistry.googleapis.com \
-  storage.googleapis.com
+  storage.googleapis.com \
+  iam.googleapis.com
 
 # Ensure Artifact Registry repo exists
 if ! gcloud artifacts repositories describe "${REPO}" --location="${REGION}" >/dev/null 2>&1; then
@@ -41,13 +45,14 @@ if ! gcloud artifacts repositories describe "${REPO}" --location="${REGION}" >/d
     --description="Docker images for Cloud Run"
 fi
 
-gcloud builds submit --tag "${IMAGE}"
+gcloud builds submit --tag "${IMAGE}" --service-account="${DEPLOY_SA_RESOURCE}"
 
 gcloud run deploy "${SERVICE}" \
   --image "${IMAGE}" \
   --region "${REGION}" \
   --platform managed \
   --allow-unauthenticated \
+  --service-account="${DEPLOY_SA}" \
   --memory 2Gi \
   --cpu 2 \
   --timeout 300 \
